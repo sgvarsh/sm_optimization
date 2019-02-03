@@ -1,0 +1,8 @@
+### Java Artifacts ###
+*.jar
+
+### Idea J or Pycharm files ###
+.idea
+
+### pyc files ###
+*.pyc
