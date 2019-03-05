@@ -1,5 +1,5 @@
 # Supermarket Optimization
-Class for supermarjet optimization using association which is typically used for market-basket
+Class for supermarket optimization using association which is typically used for market-basket
 analysis, objective would be to locate trends within the data i.e. technique will attempt to find
 groups of items that are commonly found together and thus can be used to determine which items are
 commonly bought together or whether transaction is out of ordinary.
