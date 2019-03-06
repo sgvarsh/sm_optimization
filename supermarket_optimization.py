@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import itertools
 import logging
-from optparse import OptionParser
+
 
 
 class SupermarketOptimization:
@@ -47,7 +47,7 @@ class SupermarketOptimization:
         return self.data
 
     @staticmethod
-    def get_input(parser):
+    def get_inputs_from_cmd(parser, default_filename, default_support, default_output):
         """
         parse the arguments as switches to run this program.
         :param parser:
@@ -62,11 +62,20 @@ class SupermarketOptimization:
         (options, args) = parser.parse_args()
         if not options.file:
             logging.warning('Filename is not sent across using command prompt, falling to default')
-
+            filename = default_filename
+        else:
+            filename = options.file
         if not options.support:
             logging.warning('Support level not provided, default to 4 as asked in exercise.')
-
-        return (options, args)
+            support = default_support
+        else:
+            support = options.support
+        if not options.output:
+            logging.warning('Output file not provided, default to some output filename')
+            outputfile = default_output
+        else:
+            outputfile = options.output
+        return filename, support, outputfile
 
     def create_list(self):
         '''
@@ -76,14 +85,15 @@ class SupermarketOptimization:
         reduce actual data to reduced candidates which does not meet support
         :return:
         '''
-        frequent_item_set_size = 3
+        frequent_min_item_set_size = 3
         logging.debug('Starting to run candidates list')
         individual_candidates = []
+        longest_tran = 5
         for transaction in self.data:
-            for item in set(itertools.combinations(transaction, frequent_item_set_size)):
-                logging.warning(item)
-                if not [item] in individual_candidates:
-                    individual_candidates.append([item])
+            for item_set_size in range(frequent_min_item_set_size, longest_tran+1):
+                for item in set(itertools.combinations(transaction, item_set_size)):
+                    if not [item] in individual_candidates:
+                        individual_candidates.append([item])
         individual_candidates.sort()
         # frozenset because it will be a key of a dictionary.
         return individual_candidates
@@ -95,7 +105,7 @@ class SupermarketOptimization:
                 if can == tran:
                     found_counter += 1
 
-        if found_counter == 3:
+        if found_counter == len(candidate[0]):
             return True
 
         return False
@@ -178,41 +188,3 @@ class SupermarketOptimization:
                     list_form = list(tup)
                     fw.write((str(len(tup))) + "," + str(support_data[tup]) + "," + str(list_form) +
                              "\n")
-
-
-if __name__ == "__main__":
-    logging.basicConfig()
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
-    apriori = SupermarketOptimization()
-    default_filename = './retail_25k.dat'
-    default_support = 4.0
-    default_output = './frequent_sets_25K_new.txt'
-
-    parser = OptionParser(usage="Program usage: %prog -f filename -s minimum support")
-    (options, args) = SupermarketOptimization.get_input(parser)
-
-    filename=''
-    minsupport = 0
-    output = ''
-    if options.file is not None:
-        filename = options.file
-    else:
-        filename = default_filename
-
-    if options.support is not None:
-        minsupport = options.support
-    else:
-        minsupport = default_support
-
-    if options.output is not None:
-        output = options.output
-    else:
-        output = default_output
-
-    dataset = apriori.load_data(filename)
-
-    scanned_reduced_list, support_data = apriori.apriori_run(minsupport)
-    logging.debug('Finalize the run')
-
-    SupermarketOptimization.write_output(scanned_reduced_list, support_data, output)
