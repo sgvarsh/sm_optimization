@@ -20,21 +20,6 @@ if __name__ == "__main__":
     default_filename = './sample.dat'
     default_support = 4.0
     default_output = './frequent_sets_25K_new.txt'
-<<<<<<< Updated upstream
-=======
-
-    parser = OptionParser(usage="Program usage: %prog -f filename -s minimum support")
-    filename, minsupport, output = SupermarketOptimization.get_inputs_from_cmd(parser,
-                                        default_filename,default_support, default_output)
-
-
-    dataset = apriori.load_data(filename)
-    scanned_reduced_list, support_data = apriori.apriori_run(minsupport)
-    logging.debug('Write output of the run to output file')
-    SupermarketOptimization.write_output(scanned_reduced_list, support_data, output)
-
-
->>>>>>> Stashed changes
 
     parser = OptionParser(usage="Program usage: %prog -f filename -s minimum support")
     filename, minsupport, output = SupermarketOptimization.get_inputs_from_cmd(parser,
