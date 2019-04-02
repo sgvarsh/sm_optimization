@@ -22,3 +22,4 @@ or we can also run simple as **python3 app.py** without any command line paramet
 https://www.researchgate.net/publication/233754781_Support_vs_Confidence_in_Association_Rule_Algorithms
 https://adataanalyst.com/machine-learning/apriori-algorithm-python-3-0/
 
+
