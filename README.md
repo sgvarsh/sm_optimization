@@ -10,6 +10,7 @@ analysis, objective would be to locate trends within the data i.e. technique wil
 groups of items that are commonly found together and thus can be used to determine which items can be placed together in
 supermarket.
 
+
 ## How to run
 
 **python3 app.py -f './retail_25k.dat' -s 4 -o ./frequent_sets_25K.txt**
